@@ -86,7 +86,7 @@ function afficherGalerie(works) {
 
     // La méthode forEach permet de parcourir tous les travaux (works)
     works.forEach(work => {
-        // Pour chaque travail, on crée un élément "article" pour l'afficher dans la galerie
+        // Pour chaque work, on crée un élément "article" pour l'afficher dans la galerie
         const article = document.createElement("article");
 
         // On crée un élément "img" pour afficher l'image du travail
