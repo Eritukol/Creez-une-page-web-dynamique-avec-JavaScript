@@ -84,6 +84,24 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
+.filtres{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 15px;
+}
+
+.filtres .btn-filtre {
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 20px;
+	color: #1D6154;
+	border-radius: 15px;
+	border:  2px solid #1D6154;
+	background-color: white;
+}
+
 nav ul {
 	display: flex;
 	align-items: center;

@@ -61,14 +61,34 @@
 // }
 
 
-// On utilise fetch pour récupérer les données depuis une URL (dans ce cas, l'API qui se trouve à localhost:5678)
-fetch("http://localhost:5678/api/works")
-    .then(response => response.json())  // La réponse du serveur est d'abord récupérée sous forme JSON
-    .then(data => {  // Une fois la réponse convertie en JSON, on passe les données à cette fonction
-        console.log("Données récupérées :", data); // On affiche les données dans la console pour s'assurer qu'elles sont bien récupérées
-        afficherGalerie(data); // On appelle une fonction pour afficher ces données dans la galerie de l'interface
-    })
-    .catch(error => console.error("Erreur fetch :", error));  // En cas d'erreur, on l'affiche dans la console
+async function getWorks() {
+    try {
+        // 🟢 1. On envoie une requête GET à l'API pour récupérer les travaux
+        const response = await fetch("http://localhost:5678/api/works");
+
+        // 🟢 2. On vérifie que la réponse est OK (statut 200)
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP : ${response.status}`);
+        }
+
+        // 🟢 3. On transforme la réponse en JSON (un tableau d'objets "work")
+        const data = await response.json();
+
+        // ✅ 4. On affiche dans la console les données récupérées
+        console.log("Données récupérées :", data);
+
+        // ✅ 5. On appelle la fonction qui affiche les travaux dans la galerie
+        afficherGalerie(data);
+
+    } catch (error) {
+        // 🔴 Si une erreur survient (problème réseau, serveur éteint, etc.)
+        console.error("Erreur lors de la récupération :", error);
+    }
+}
+
+// On exécute la fonction
+getWorks();
+
 
 // Fonction qui affiche les travaux dans la galerie
 function afficherGalerie(works) {
@@ -96,7 +116,7 @@ function afficherGalerie(works) {
 
         // On crée un élément "h2" pour afficher le titre du travail
         const title = document.createElement("h3");
-        title.innerText = work.title;  // On met le titre du travail dans l'élément h2
+        title.innerText = work.title;  // On met le titre du travail dans l'élément h3
 
         // On ajoute l'image et le titre à l'article (ce sont les éléments visibles)
         article.appendChild(image);  // On ajoute l'image à l'article
@@ -106,3 +126,4 @@ function afficherGalerie(works) {
         gallery.appendChild(article);
     });
 }
+
