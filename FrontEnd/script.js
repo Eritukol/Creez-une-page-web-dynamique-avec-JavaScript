@@ -95,7 +95,7 @@ function afficherGalerie(works) {
         image.alt = work.title;  // On définit l'attribut alt pour l'image avec le titre du travail
 
         // On crée un élément "h2" pour afficher le titre du travail
-        const title = document.createElement("h2");
+        const title = document.createElement("h3");
         title.innerText = work.title;  // On met le titre du travail dans l'élément h2
 
         // On ajoute l'image et le titre à l'article (ce sont les éléments visibles)
