@@ -1,99 +1,92 @@
-
-// On exécute la fonction
+// On exécute la fonction pour récupérer les travaux dès le départ
 getWorks();
 
-
-
+// Fonction qui récupère les travaux depuis l'API
 async function getWorks() {
     try {
-        // 🟢 1. On envoie une requête GET à l'API pour récupérer les travaux
+        // On envoie la requête pour récupérer les travaux
         const response = await fetch("http://localhost:5678/api/works");
 
-        // 🟢 2. On vérifie que la réponse est OK (statut 200)
+        // On vérifie que la réponse est valide
         if (!response.ok) {
             throw new Error(`Erreur HTTP : ${response.status}`);
         }
 
-        // 🟢 3. On transforme la réponse en JSON (un tableau d'objets "work")
+        // On transforme la réponse en JSON
         const data = await response.json();
 
-        // ✅ 4. On affiche dans la console les données récupérées
-        console.log("Données récupérées :", data);
-
-        // ✅ 5. On appelle la fonction qui affiche les travaux dans la galerie
+        // On affiche les travaux dans la galerie
         afficherGalerie(data);
 
+        // On génère les filtres en fonction des catégories
+        genererFiltres(data);
+
     } catch (error) {
-        // 🔴 Si une erreur survient (problème réseau, serveur éteint, etc.)
+        // Si une erreur survient, on l'affiche dans la console
         console.error("Erreur lors de la récupération :", error);
     }
 }
 
-
-
 // Fonction qui affiche les travaux dans la galerie
 function afficherGalerie(works) {
-    // Sélectionne l'élément avec la classe "gallery" (c'est là qu'on va ajouter les travaux)
     const gallery = document.querySelector(".gallery");
 
-    // Vérifie si l'élément "gallery" existe dans le DOM
-    if (!gallery) {  // Si gallery est null (n'existe pas), on affiche une erreur et on arrête la fonction
+    // Vérifie si l'élément "gallery" existe
+    if (!gallery) {
         console.error("Erreur : L'élément .gallery n'existe pas dans le DOM !");
-        return;  // On arrête la fonction ici si l'élément n'existe pas
+        return;
     }
 
-    // Avant d'ajouter de nouveaux travaux à la galerie, on vide d'abord le contenu actuel pour éviter l'accumulation
-    gallery.innerHTML = "";  // On vide l'élément "gallery" (cela efface tous les anciens travaux, si présents)
+    // Vide la galerie avant d'ajouter les nouveaux travaux
+    gallery.innerHTML = "";
 
-    // La méthode forEach permet de parcourir tous les travaux (works)
+    // Affiche chaque travail dans la galerie
     works.forEach(work => {
-        // Pour chaque work, on crée un élément "figure" pour l'afficher dans la galerie
         const figure = document.createElement("figure");
-
-        // On crée un élément "img" pour afficher l'image du travail
         const image = document.createElement("img");
-        image.src = work.imageUrl;  // On définit la source de l'image (work.imageUrl contient l'URL de l'image)
-        image.alt = work.title;  // On définit l'attribut alt pour l'image avec le titre du travail
-
-        // On crée un élément "figcaption" pour afficher le titre du travail
-        const figcaption = document.createElement("figcaption");
-        figcaption.innerText = work.title;  // On met le titre du travail dans l'élément h3
-
-        // On ajoute l'image et le titre à l'article (ce sont les éléments visibles)
-        figure.appendChild(image);  // On ajoute l'image à l'article
-        figure.appendChild(figcaption);  // On ajoute le titre à l'article
-
-        // On ajoute l'article à la galerie (cela l'affiche sur la page web)
-        gallery.appendChild(figure);
-
+        image.src = work.imageUrl;
+        image.alt = work.title;
         
+        const figcaption = document.createElement("figcaption");
+        figcaption.innerText = work.title;
+
+        figure.appendChild(image);
+        figure.appendChild(figcaption);
+        gallery.appendChild(figure);
     });
+}
 
+// Fonction qui génère les filtres en fonction des catégories
+function genererFiltres(works) {
     const categories = [...new Set(works.map(work => work.category.name))];
-console.log(categories);
+    const filtres = document.querySelector(".filtres");
 
-const filtres = document.querySelector(".filtres");
-
-    categories.forEach(categories => {
+    // Crée un bouton pour chaque catégorie
+    categories.forEach(categoryName => {
         const button = document.createElement("button");
-        const text = document.createTextNode(categories);
         button.classList.add("btn-filtre");
-        button.appendChild(text);
+        button.textContent = categoryName;
         filtres.appendChild(button);
     });
 
-
-    // function Filtre() {
-    //     const filtres = document.querySelector(".filtres");
-    
-    //     const button = document.createElement("button");
-    //     const text = document.createTextNode("Objets");
-    //     button.classList.add("btn-filtre");
-    
-    //     button.appendChild(text);
-    //     filtres.appendChild(button);
-    // }
+    // Ajoute les gestionnaires d'événements pour chaque bouton de filtre
+    const buttons = document.querySelectorAll(".btn-filtre");
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            const categoryClick = button.textContent;
+            // Filtrer les travaux selon la catégorie sélectionnée
+            const filteredWorks = filterWorks(works, categoryClick);
+            afficherGalerie(filteredWorks);
+        });
+    });
 }
+
+// Fonction qui filtre les travaux en fonction de la catégorie
+function filterWorks(works, categoryClick) {
+    return works.filter(work => work.category.name === categoryClick);
+}
+
+
 
 
 
