@@ -102,6 +102,11 @@ h2{
 	background-color: white;
 }
 
+.btn-filtre.active {
+	background-color: #1D6154;
+	color: white;
+}
+
 nav ul {
 	display: flex;
 	align-items: center;
