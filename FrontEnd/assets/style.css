@@ -58,6 +58,8 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
+
+
 section {
 	margin: 50px 0
 }
@@ -81,7 +83,7 @@ h1 > span {
 h2{
 	font-family: 'Syne';
 	font-weight: 700;
-	font-size: 16px;
+	font-size: 30px;
 	color: #1D6154
 }
 
@@ -170,6 +172,7 @@ margin: auto;
 }
 #contact h2{
 	margin-bottom: 20px;
+	font-size: 30px;
 }
 #contact form {
 	text-align: left;
@@ -209,3 +212,7 @@ footer nav ul {
 	margin: 2em
 }
 
+
+a {
+	text-decoration: none;
+}
