@@ -1,99 +1,136 @@
 
-// Point de départ
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Le JavaScript est bien chargé !");
 
-    //appel de fonction
 
-    fetchWorks();
-    
-});
 
-async function fetchWorks() {
-    try {
-        const response = await fetch("http://localhost:5678/api/works");
+// ==============================
+// INITIALISATION DE L'APPLICATION
+// ==============================
 
-        if (!response.ok) {
-            throw new Error('Erreur HTTP : ${response.status}');
-        }
+initApp();
 
-        const data = await response.json();
-        console.log("Work récupérés :", data);
-
-        afficherGalerie(data);
-        genererFiltres(data);
-
-    }   catch (error) {
-        console.error("Erreur lors de la récupération des works: ", error);
-    }
+function initApp() {
+    getWorks()
+        .then(works => {
+            renderGallery(works);      // Affiche tous les travaux dans la galerie
+            createFilters(works);      // Crée les boutons de filtre dynamiquement
+        })
+        .catch(error => console.error("Erreur lors du chargement :", error));
 }
 
-function afficherGalerie(works) {
-    const gallery = document.querySelector(".gallery");
-    
-    if (!gallery) {
-        console.error("Erreur : l'élément .gallery est introuvable.");
+
+
+// ==============================
+// FONCTION : RÉCUPÉRER LES TRAVAUX DE L'API
+// ==============================
+
+async function getWorks() {
+    const response = await fetch("http://localhost:5678/api/works");
+
+    if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Travaux récupérés :", data);
+
+    return data;
+}
+
+
+
+// ==============================
+// FONCTION : AFFICHER LES TRAVAUX DANS LA GALERIE
+// ==============================
+
+function renderGallery(works) {
+    const galleryContainer = document.querySelector(".gallery");
+
+    if (!galleryContainer) {
+        console.error("Erreur : élément .gallery introuvable.");
         return;
     }
-    
-    gallery.innerHTML = ""; // On vide la galerie
+
+    galleryContainer.innerHTML = ""; // On vide la galerie avant réinjection
 
     works.forEach(work => {
-        const figure = document.createElement("figure");
-        const image = document.createElement("img");
-
-        image.src = work.imageUrl;
-        image.alt = work.title;
-
-        const figcaption = document.createElement("figcaption");
-        figcaption.innerText = work.title;
-
-        figure.appendChild(image);
-        figure.appendChild(figcaption);
-        gallery.appendChild(figure);
+        const figure = createWorkFigure(work);
+        galleryContainer.appendChild(figure);
     });
 }
 
-function genererFiltres(works) {
-    const filtres = document.querySelector(".filtres");
+// Fonction utilitaire pour créer un élément <figure> à partir d'un work
+function createWorkFigure(work) {
+    const figure = document.createElement("figure");
 
-     // Fonction pour gérer la classe active
-     function activerBouton(clique) {
-        const boutons = document.querySelectorAll(".btn-filtre");
-        boutons.forEach(b => b.classList.remove("active"));
-        clique.classList.add("active");
+    const image = document.createElement("img");
+    image.src = work.imageUrl;
+    image.alt = work.title;
+
+    const caption = document.createElement("figcaption");
+    caption.textContent = work.title;
+
+    figure.appendChild(image);
+    figure.appendChild(caption);
+
+    return figure;
+}
+
+
+
+// ==============================
+// FONCTION : CRÉER LES BOUTONS DE FILTRE
+// ==============================
+
+function createFilters(works) {
+    const filtersContainer = document.querySelector(".filtres");
+
+    if (!filtersContainer) {
+        console.error("Erreur : élément .filtres introuvable.");
+        return;
     }
 
+    filtersContainer.innerHTML = ""; // Nettoyage si on recharge
 
+    const categories = getUniqueCategories(works);
 
-    //  Création du bouton "Tous"
-    const boutonTous = document.createElement("button");
-    boutonTous.classList.add("btn-filtre","active");
-    boutonTous.textContent = "Tous";
-    filtres.appendChild(boutonTous);
-
-    // Gestion du clic sur "Tous"
-    boutonTous.addEventListener("click", () => {
-        afficherGalerie(works);
-        activerBouton(boutonTous);
+    // --- Création du bouton "Tous" ---
+    const allButton = createFilterButton("Tous", () => {
+        renderGallery(works);          // Réaffiche tous les travaux
+        setActiveFilter(allButton);   // Active le bouton cliqué
     });
+    allButton.classList.add("active"); // Par défaut actif au démarrage
+    filtersContainer.appendChild(allButton);
 
-    //  Création des boutons à partir des catégories
-    const categories = [...new Set(works.map(work => work.category.name))];
-
-    categories.forEach(categoryName => {
-        const button = document.createElement("button");
-        button.classList.add("btn-filtre");
-        button.textContent = categoryName;
-        filtres.appendChild(button);
-
-        //  Gestion du clic sur chaque bouton de filtre
-        button.addEventListener("click", () => {
-            const filteredWorks = works.filter(work => work.category.name === categoryName);
-            afficherGalerie(filteredWorks);
-            activerBouton(boutonTous);
+    // --- Création des autres boutons catégories ---
+    categories.forEach(category => {
+        const button = createFilterButton(category, () => {
+            const filtered = works.filter(work => work.category.name === category);
+            renderGallery(filtered);      // Affiche uniquement la catégorie filtrée
+            setActiveFilter(button);      // Active le bouton cliqué
         });
+        filtersContainer.appendChild(button);
     });
+}
+
+// Fonction utilitaire pour créer un bouton de filtre
+function createFilterButton(label, onClick) {
+    const button = document.createElement("button");
+    button.classList.add("btn-filtre");
+    button.textContent = label;
+    button.addEventListener("click", onClick);
+    return button;
+}
+
+// Fonction pour extraire les noms de catégories uniques
+function getUniqueCategories(works) {
+    return [...new Set(works.map(work => work.category.name))];
+}
+
+// Fonction pour gérer l'état "actif" d'un bouton de filtre
+function setActiveFilter(activeButton) {
+    const allButtons = document.querySelectorAll(".btn-filtre");
+    allButtons.forEach(button => button.classList.remove("active"));
+    activeButton.classList.add("active");
 }
 
 
@@ -108,68 +145,45 @@ function genererFiltres(works) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// // On exécute la fonction pour récupérer les travaux dès le départ
 // getWorks();
+    
 
-// let allWorks = [];
-
-// // Fonction qui récupère les travaux depuis l'API
 // async function getWorks() {
 //     try {
-//         // On envoie la requête pour récupérer les travaux
 //         const response = await fetch("http://localhost:5678/api/works");
 
-//         // On vérifie que la réponse est valide
 //         if (!response.ok) {
-//             throw new Error(`Erreur HTTP : ${response.status}`);
+//             throw new Error('Erreur HTTP : ${response.status}');
 //         }
 
-//         // On transforme la réponse en JSON
-//         allWorks = await response.json();
+//         const data = await response.json();
+//         console.log("Work récupérés :", data);
 
-//         // On affiche les travaux dans la galerie
-//         afficherGalerie(allWorks);
+//         afficherGalerie(data);
+//         genererFiltres(data);
 
-//         // On génère les filtres en fonction des catégories
-//         genererFiltres(allWorks);
-
-//     } catch (error) {
-//         // Si une erreur survient, on l'affiche dans la console
-//         console.error("Erreur lors de la récupération :", error);
+//     }   catch (error) {
+//         console.error("Erreur lors de la récupération des works: ", error);
 //     }
 // }
 
-// // Fonction qui affiche les travaux dans la galerie
 // function afficherGalerie(works) {
 //     const gallery = document.querySelector(".gallery");
-
-//     // Vérifie si l'élément "gallery" existe
+    
 //     if (!gallery) {
-//         console.error("Erreur : L'élément .gallery n'existe pas dans le DOM !");
+//         console.error("Erreur : l'élément .gallery est introuvable.");
 //         return;
 //     }
+    
+//     gallery.innerHTML = ""; // On vide la galerie
 
-//     // Vide la galerie avant d'ajouter les nouveaux travaux
-//     gallery.innerHTML = "";
-
-//     // Affiche chaque travail dans la galerie
 //     works.forEach(work => {
 //         const figure = document.createElement("figure");
 //         const image = document.createElement("img");
+
 //         image.src = work.imageUrl;
 //         image.alt = work.title;
-        
+
 //         const figcaption = document.createElement("figcaption");
 //         figcaption.innerText = work.title;
 
@@ -179,50 +193,71 @@ function genererFiltres(works) {
 //     });
 // }
 
-
-// const allButton = document.querySelector(".filtres .btn-filtre");
-
-// allButton.addEventListener("click", () => {
-//     afficherGalerie(allWorks);
-//     updateButtonSelection(allButton);
-// });
-
-// function updateButtonSelection(selectedButton) {
-//     const buttons = document.querySelectorAll(".btn-filtre");
-//     buttons.forEach(button => button.classList.remove("selected"));
-
-//     selectedButton.classList.add("selected");
-// }
-
-// // Fonction qui génère les filtres en fonction des catégories
 // function genererFiltres(works) {
-//     const categories = [...new Set(works.map(work => work.category.name))];
 //     const filtres = document.querySelector(".filtres");
 
-//     // Crée un bouton pour chaque catégorie
+//      // Fonction pour gérer la classe active
+//      function activerBouton(clique) {
+//         const boutons = document.querySelectorAll(".btn-filtre");
+//         boutons.forEach(b => b.classList.remove("active"));
+//         clique.classList.add("active");
+//     }
+
+
+
+//     //  Création du bouton "Tous"
+//     const boutonTous = document.createElement("button");
+//     boutonTous.classList.add("btn-filtre","active");
+//     boutonTous.textContent = "Tous";
+//     filtres.appendChild(boutonTous);
+
+//     // Gestion du clic sur "Tous"
+//     boutonTous.addEventListener("click", () => {
+//         afficherGalerie(works);
+//         activerBouton(boutonTous);
+//     });
+
+//     //  Création des boutons à partir des catégories
+//     const categories = [...new Set(works.map(work => work.category.name))];
+
 //     categories.forEach(categoryName => {
 //         const button = document.createElement("button");
 //         button.classList.add("btn-filtre");
 //         button.textContent = categoryName;
 //         filtres.appendChild(button);
-//     });
 
-//     // Ajoute les gestionnaires d'événements pour chaque bouton de filtre
-//     const buttons = document.querySelectorAll(".btn-filtre");
-//     buttons.forEach(button => {
+//         //  Gestion du clic sur chaque bouton de filtre
 //         button.addEventListener("click", () => {
-//             const categoryClick = button.textContent;
-//             // Filtrer les travaux selon la catégorie sélectionnée
-//             const filteredWorks = filterWorks(works, categoryClick);
+//             const filteredWorks = works.filter(work => work.category.name === categoryName);
 //             afficherGalerie(filteredWorks);
+//             activerBouton(button);
 //         });
 //     });
 // }
 
-// // Fonction qui filtre les travaux en fonction de la catégorie
-// function filterWorks(works, categoryClick) {
-//     return works.filter(work => work.category.name === categoryClick);
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
