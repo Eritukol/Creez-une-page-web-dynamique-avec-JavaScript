@@ -1,5 +1,7 @@
+
+
 function getLoginElements() {
-    // selectionne les éléments
+    // selectionne les éléments du dom
     return  {
         form: document.getElementById("form"),
         emailInput: document.getElementById("email"),
@@ -37,8 +39,44 @@ passwordInput.addEventListener("input", () => {
 form.addEventListener("submit", async function (event) {
     event.preventDefault(); //empeche le rechargement de la page
 
-    
-})
+    // on récupère les valeurs entrée dans les champs email et mdp .trim() enlève les espaces au début et 
+    // à la fin
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    try {
+        const response =  await fetch("http://localhost:5678/api/users/login", {
+            method: "POST", // envoie des données
+            headers: { //on précise qu'on envoie du JSON
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password }) // on convertit les données JS en format JSON
+        });
+
+
+        
+        if (response.ok) {  // si reponse ok on connecte sinon 
+            // Ici, connexion réussie
+            const data = await response.json(); // récupère le token
+            sessionStorage.setItem("token", data.token); // stocke le token dans le sessionStorage
+            window.location.href = "index.html"; // redirige vers la page d'accueil
+
+        } else if (response.status === 401) {
+            passwordInput.classList.add("loginError");
+            showError("Mot de passe incorrect.");
+        } else if (response.status === 404) {
+            emailInput.classList.add("loginError");
+            showError("Utilisateur non trouvé.");
+        } else {
+            showError("Une erreur est survenue. Veuillez réessayer plus tard.");
+        }
+
+
+    } catch (error) {
+        console.error("Erreur de connexion :", error);
+        showError("Impossible de se connecter au serveur.");
+    }
+});
 
 
 
