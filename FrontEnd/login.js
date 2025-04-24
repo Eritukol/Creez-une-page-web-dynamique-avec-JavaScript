@@ -5,7 +5,7 @@ function getLoginElements() {
     return  {
         form: document.getElementById("form"),
         emailInput: document.getElementById("email"),
-        passwordInput: document.getElementById("pass"),
+        passwordInput: document.getElementById("password"),
         errorMessage: document.getElementById("formError")
 
     };
@@ -101,7 +101,7 @@ form.addEventListener("submit", async function (event) {
 //   clearErrorMessage();
 // });
 
-// function clearErrorMessage() { // on éfface le message d'erreur 
+// function clearErrorMessage() { // on efface le message d'erreur 
 //   errorMessage.innerHTML = ""
 // }
 
