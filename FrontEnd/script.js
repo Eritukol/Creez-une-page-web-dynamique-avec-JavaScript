@@ -1,4 +1,4 @@
-
+const adminToken = sessionStorage.getItem("token");
 
 
 // ==============================
@@ -138,11 +138,54 @@ function setActiveFilter(activeButton) {
 }
 
 
+////////////////////////////////////////////////////////////
+
+function Admin() {
+    if (adminToken) {
+        const connect = document.getElementById('login');
+
+        connect.innerHTML = "<a href='#'>logout</a>";
+
+        connect.addEventListener("click", (e) => {
+            e.preventDefault();
+            sessionStorage.removeItem("token");
+            window.location.href = "index.html";
+        });
 
 
+        adminDisplay();
+        navigateModal();
+        createCategoryOption();
+        inputFiles();
+        addWorks();
 
+    };
+};
 
+function adminDisplay() {
+    // Création de la bannière noire
+    const banner = document.getElementById('bannerEdit')
 
+    banner.classList.add("blackBanner")
+    banner.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>' + "Mode édition";
+
+    // On masque les filtres
+    const filters = document.querySelector(".filters");
+    filters.style.display = "none";
+
+    // Modification de la margin sous le h2 'Mes Projets' 
+    const portfolioTitle = document.querySelector(".portfolioTitle");
+    portfolioTitle.style.marginBottom = "90px";
+
+    // Ajout du bouton modifier
+    const boutonEdit = document.createElement("a");
+    boutonEdit.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>' + "modifier";
+    boutonEdit.href = "#modal1";
+    boutonEdit.classList.add("editBouton", "js-modal")
+    portfolioTitle.appendChild(boutonEdit)
+}
+
+Admin();
 
 
 
