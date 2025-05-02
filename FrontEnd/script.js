@@ -205,12 +205,15 @@ const closeModal = function () {
     const modal = document.querySelector(".modal");
     modal.classList.add("hidden");
     modal.setAttribute("aria-hidden", "true");
+    
 };
 
 
 
 document.querySelectorAll(".modal-close").forEach((btn) => {
+    const modal = document.querySelector(".modal");
     btn.addEventListener("click", closeModal);
+    modal.addEventListener("click", closeModal);
 });
 
 
