@@ -63,7 +63,7 @@ form.addEventListener("submit", async function (event) {
 
         } else if (response.status === 401) {
             passwordInput.classList.add("loginError");
-            showError("Mot de passe incorrect.");
+            showError("Combinaison e-mail / mot de passe incorrect");
         } else if (response.status === 404) {
             emailInput.classList.add("loginError");
             showError("Utilisateur non trouvé.");

@@ -6,12 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
+<div id="bannerEdit"></div>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
@@ -36,16 +39,10 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<h2 class="portfolioTitle">Mes Projets</h2>
 		<section class="filtres">
 			
-			<!-- <button class="btn-filtre selected">Tous</button> -->
 			
-			<!-- <button class="btn-filtre">Objets</button>
-
-			<button class="btn-filtre">Appartements</button>
-			
-			<button class="btn-filtre">Hotels & restaurants</button> -->
 		</section>
 		<div class="gallery">
 		</div>
@@ -72,6 +69,18 @@
 		</ul>
 	</nav>
 </footer>
+
+<aside id="modal1" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
+	<div class="modal-wrapper">
+		<button class="modal-close" aria-label="Fermer la modale">&times;</button>
+		<h3>Galerie photo</h3>
+
+		<div class="modal-content">
+			
+		</div>
+	</div>
+</aside>
+
 <script src="script.js"></script>
 </body>
 </html>

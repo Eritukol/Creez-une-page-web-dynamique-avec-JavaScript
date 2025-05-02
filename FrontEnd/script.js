@@ -1,6 +1,7 @@
 const adminToken = sessionStorage.getItem("token");
 
 
+
 // ==============================
 // INITIALISATION DE L'APPLICATION
 // ==============================
@@ -12,6 +13,7 @@ function initApp() {
         .then(works => {
             renderGallery(works);      // Affiche tous les travaux dans la galerie
             createFilters(works);      // Crée les boutons de filtre dynamiquement
+            Admin();                   // Appel la fonction admin
         })
         .catch(error => console.error("Erreur lors du chargement :", error));
 }
@@ -138,12 +140,16 @@ function setActiveFilter(activeButton) {
 }
 
 
-////////////////////////////////////////////////////////////
+// ==============================
+// FONCTION : ADMIN
+// ==============================
+
+
 
 function Admin() {
     if (adminToken) {
         const connect = document.getElementById('login');
-
+        console.log("token trouvé :", adminToken);
         connect.innerHTML = "<a href='#'>logout</a>";
 
         connect.addEventListener("click", (e) => {
@@ -154,10 +160,11 @@ function Admin() {
 
 
         adminDisplay();
-        navigateModal();
-        createCategoryOption();
-        inputFiles();
-        addWorks();
+        
+        // navigateModal();
+        // createCategoryOption();
+        // inputFiles();
+        // addWorks();
 
     };
 };
@@ -170,7 +177,7 @@ function adminDisplay() {
     banner.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>' + "Mode édition";
 
     // On masque les filtres
-    const filters = document.querySelector(".filters");
+    const filters = document.querySelector(".filtres");
     filters.style.display = "none";
 
     // Modification de la margin sous le h2 'Mes Projets' 
@@ -183,9 +190,28 @@ function adminDisplay() {
     boutonEdit.href = "#modal1";
     boutonEdit.classList.add("editBouton", "js-modal")
     portfolioTitle.appendChild(boutonEdit)
+    boutonEdit.addEventListener("click", openModal);
 }
 
-Admin();
+// Modal
+const openModal = function(e) {
+    e.preventDefault();
+    const target = document.querySelector(e.target.getAttribute("href"));
+    target.classList.remove("hidden");
+    target.setAttribute("aria-hidden", "false");
+};
+
+const closeModal = function () {
+    const modal = document.querySelector(".modal");
+    modal.classList.add("hidden");
+    modal.setAttribute("aria-hidden", "true");
+};
+
+
+
+document.querySelectorAll(".modal-close").forEach((btn) => {
+    btn.addEventListener("click", closeModal);
+});
 
 
 
