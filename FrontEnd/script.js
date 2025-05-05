@@ -193,12 +193,16 @@ function adminDisplay() {
     boutonEdit.addEventListener("click", openModal);
 }
 
-// Modal
+///////// Modal
 const openModal = function(e) {
     e.preventDefault();
     const target = document.querySelector(e.target.getAttribute("href"));
     target.classList.remove("hidden");
     target.setAttribute("aria-hidden", "false");
+
+    getWorks().then(works => {
+        renderModalGallery(works);
+    });
 };
 
 const closeModal = function () {
@@ -217,7 +221,32 @@ document.querySelectorAll(".modal-close").forEach((btn) => {
 });
 
 
+function renderModalGallery(works) {
+    const modalContent = document.querySelector(".modal-content");
 
+    if (!modalContent) {
+        console.error("Erreur : .modal-content introuvable");
+        return;
+    }
+
+    modalContent.innerHTML = ""; 
+
+    works.forEach(work => {
+        const figure = document.createElement("figure");
+        figure.classList.add("modal-figure");
+
+        const img = document.createElement("img");
+        img.src = work.imageUrl;
+        img.alt = work.title;
+
+        const deleteIcon = document.createElement("i");
+        deleteIcon.classList.add("fa-solid", "fa-trash-can", "modal-delete-icon");
+
+        figure.appendChild(img);
+        figure.appendChild(deleteIcon);
+        modalContent.appendChild(figure);
+    });
+}
 
 
 

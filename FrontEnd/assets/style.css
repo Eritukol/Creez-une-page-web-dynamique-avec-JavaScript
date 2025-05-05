@@ -419,3 +419,30 @@ a {
 	font-size: 1.5rem;
 	cursor: pointer;
   }
+
+  .modal-content {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 10px;
+	margin-top: 20px;
+  }
+  
+  .modal-content figure {
+	position: relative;
+  }
+  
+  .modal-content img {
+	width: 100%;
+	height: auto;
+	border-radius: 5px;
+  }
+  
+  .modal-delete-icon {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	color: white;
+	cursor: pointer;
+	background: black;
+	padding: 5px;
+  }
