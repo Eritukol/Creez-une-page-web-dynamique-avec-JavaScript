@@ -71,15 +71,46 @@
 </footer>
 
 <aside id="modal1" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
-	<div class="modal-wrapper">
-		<button class="modal-close" aria-label="Fermer la modale">&times;</button>
-		<h3>Galerie photo</h3>
+  <div class="modal-wrapper">
+    <button class="modal-close" aria-label="Fermer la modale">&times;</button>
+    
+    <!-- Bouton retour (visible uniquement sur modalContent2) -->
+    <button class="arrowLeft hidden" aria-label="Retour à la galerie">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
 
-		<div class="modal-content">
-			
-		</div>
-	</div>
+    <!-- Galerie (modalContent1) -->
+    <div class="modalContent1">
+      <h3>Galerie photo</h3>
+      <div class="modal-content"></div>
+      <button class="btnAddWork">Ajouter une photo</button>
+    </div>
+
+    <!-- Ajout de photo (modalContent2) -->
+    <div class="modalContent2 hidden">
+      <h3>Ajout photo</h3>
+      <form id="addWorkForm" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input type="file" id="image" name="image" accept="image/*" required />
+        </div>
+
+        <div class="form-group">
+          <label for="title">Titre</label>
+          <input type="text" id="title" name="title" required />
+        </div>
+
+        <div class="form-group">
+          <label for="category">Catégorie</label>
+          <select id="category" name="category" required></select>
+        </div>
+
+        <button type="submit" class="submit-button">Valider</button>
+      </form>
+    </div>
+  </div>
 </aside>
+
 
 <script src="script.js"></script>
 </body>
