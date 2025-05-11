@@ -176,14 +176,14 @@ h2 {
 	color: #1D6154
 }
 
-.filtres {
+.filters {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	gap: 15px;
 }
 
-.filtres .btn-filtre {
+.filters-button {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 20px;
@@ -193,7 +193,7 @@ h2 {
 	background-color: white;
 }
 
-.btn-filtre.active {
+.filters .active {
 	background-color: #1D6154;
 	color: white;
 }
