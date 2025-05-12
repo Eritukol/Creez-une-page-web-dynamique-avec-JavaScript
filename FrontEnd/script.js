@@ -276,12 +276,14 @@ function navigateModal() {
     // --- Quand on clique sur "Ajouter une photo"
     btnAddWork.addEventListener("click", function () {
         // On masque la galerie
-        modalContent1.style.display = "none";
+        modalContent1.classList.add("hidden");
+        // modalContent1.style.display = "none";
         // On affiche le formulaire
-        modalContent2.style.display = "flex";
+        //modalContent2.style.display = "flex";
         // On affiche la flèche retour
         arrowLeft.style.display = "flex";
         modalContent2.classList.remove("hidden");
+        arrowLeft.classList.remove("hidden");
         // (Optionnel) Vérifie si le bouton Valider peut être activé
         // buttonFormCheck(); 
         createCategoryOption(); // Remplit la liste déroulante au moment où on ouvre le formulaire
@@ -290,13 +292,14 @@ function navigateModal() {
     // --- Quand on clique sur la flèche retour
     arrowLeft.addEventListener("click", function () {
         // On affiche la galerie
-        modalContent1.style.display = "flex";
+        modalContent1.classList.remove("hidden");
         // On masque le formulaire
-        modalContent2.style.display = "none";
+        modalContent2.classList.add("hidden");
         // On masque la flèche retour
         arrowLeft.style.display = "none";
 
-        modalContent2.classList.add("hidden");
+        
+        arrowLeft.classList.add("hidden");
         // (Optionnel) Réinitialise le formulaire
         // resetForm();
     });
