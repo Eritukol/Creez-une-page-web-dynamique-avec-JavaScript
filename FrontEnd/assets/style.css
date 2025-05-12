@@ -384,65 +384,128 @@ a {
 
   /* Modal */
 
-  .modal {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.6);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 1000;
-  }
-  
-  .modal.hidden {
-	display: none;
-  }
-  
-  .modal-wrapper {
-	background: white;
-	padding: 20px;
-	width: 500px;
-	max-width: 90%;
-	border-radius: 10px;
-	position: relative;
-  }
-  
-  .modal-close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	background: transparent;
-	border: none;
-	font-size: 1.5rem;
-	cursor: pointer;
-  }
+/* ——— Fond de la modale ——— */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
 
-  .modal-content {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	gap: 10px;
-	margin-top: 20px;
-  }
-  
-  .modal-content figure {
-	position: relative;
-  }
-  
-  .modal-content img {
-	width: 100%;
-	height: auto;
-	border-radius: 5px;
-  }
-  
-  .modal-delete-icon {
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	color: white;
-	cursor: pointer;
-	background: black;
-	padding: 5px;
-  }
+/* ——— Bloc principal de la modale ——— */
+.modal-wrapper {
+  background: #fff;
+  width: 630px;
+  max-width: 90vw;
+  padding: 60px 50px 40px;
+  border-radius: 10px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 95vh;
+  box-sizing: border-box;
+}
+
+/* ——— Fermeture (croix) ——— */
+.modal-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* ——— Titre ——— */
+.modalContent1 h3,
+.modalContent2 h3 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: normal;
+  margin-bottom: 30px;
+}
+
+/* ——— Galerie ——— */
+.modal-content {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 colonnes */
+  gap: 20px 10px; /* plus d'espace vertical (20px), horizontal (10px) */
+  margin-bottom: 40px;
+}
+
+.modal-content figure {
+  position: relative;
+  background: white;
+  width: 100%;
+  height: 110px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+/* Image bien contenue dans son bloc */
+.modal-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* ——— Icône de suppression ——— */
+.modal-content .delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* ——— Ligne de séparation ——— */
+.separator {
+  width: 100%;
+  height: 1px;
+  background-color: #b3b3b3;
+  margin: 30px 0 20px; /* espace autour de la ligne */
+}
+
+/* ——— Bouton Ajouter une photo ——— */
+.btnAddWork {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 25px;
+  background-color: #1D6154;
+  color: white;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ——— Mise à jour du contenu de la galerie ——— */
+.modalContent1 h3 {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 30px;
+}
+
+/* ——— Pour les figures sans icône personnalisée ——— */
+figure .delete-btn::before {
+  content: "🗑️"; /* icône alternative au cas où */
+}
+
+/* ——— Cacher les blocs dynamiques tant qu'ils sont inutiles ——— */
+.hidden {
+  display: none !important;
+}

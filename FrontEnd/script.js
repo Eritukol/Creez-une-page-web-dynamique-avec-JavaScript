@@ -162,7 +162,7 @@ function Admin() {
 
         adminDisplay();
         
-        // navigateModal();
+        navigateModal();
         // createCategoryOption();
         // inputFiles();
         // addWorks();
@@ -218,7 +218,12 @@ const closeModal = function () {
 document.querySelectorAll(".modal-close").forEach((btn) => {
     const modal = document.querySelector(".modal");
     btn.addEventListener("click", closeModal);
-    modal.addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) {
+        const modalWrapper = modal.querySelector(".modal-wrapper");
+        if (!modalWrapper.contains(e.target)) {
+            closeModal();
+        }
+    });
 });
 
 
@@ -241,7 +246,7 @@ function renderModalGallery(works) {
         img.alt = work.title;
 
         const deleteIcon = document.createElement("i");
-        deleteIcon.classList.add("fa-solid", "fa-trash-can", "modal-delete-icon");
+        deleteIcon.classList.add("fa-solid", "fa-trash-can", "delete-btn");
         deleteIcon.setAttribute("data-id", work.id);
 
         deleteIcon.addEventListener("click", async () => {
@@ -261,30 +266,6 @@ function renderModalGallery(works) {
     });
 }
 
-
-function navigateModal() {
-    const buttonModal = document.querySelector(".buttonModal");
-    const modalContent1 = document.querySelector(".modalContent1");
-    const modalContent2 = document.querySelector(".modalContent2");
-    const arrowLeft = document.querySelector(".arrowLeft");
-
-    // Pour aller vers la fenêtre d'ajout de projet
-    buttonModal.addEventListener("click", function () {
-        modalContent1.style.display = "none";
-        modalContent2.style.display = "flex";
-        arrowLeft.style.display = "flex";
-        //buttonFormCheck();
-    });
-
-    // Pour aller vers la fenêtre de la gallerie de la modale
-    arrowLeft.addEventListener("click", function () {
-        modalContent1.style.display = "flex";
-        modalContent2.style.display = "none";
-        arrowLeft.style.display = "none";
-        //resetForm()
-    });
-};
-
 // Fonction pour créer les options pour la selection de catégorie d'ajout photo
 async function createCategoryOption() {
     const dataCategories = await getCategories();
@@ -299,6 +280,52 @@ async function createCategoryOption() {
     });
 
 };
+
+function navigateModal() {
+    const btnAddWork = document.querySelector(".btnAddWork"); // Bouton "Ajouter une photo"
+    const modalContent1 = document.querySelector(".modalContent1"); // Galerie de la modale
+    const modalContent2 = document.querySelector(".modalContent2"); // Formulaire d'ajout
+    const arrowLeft = document.querySelector(".arrowLeft"); // Flèche retour
+
+    // --- Quand on clique sur "Ajouter une photo"
+    btnAddWork.addEventListener("click", function () {
+        // On masque la galerie
+        modalContent1.style.display = "none";
+        // On affiche le formulaire
+        modalContent2.style.display = "flex";
+        // On affiche la flèche retour
+        arrowLeft.style.display = "flex";
+        
+        // (Optionnel) Vérifie si le bouton Valider peut être activé
+        // buttonFormCheck(); 
+        createCategoryOption(); // Remplit la liste déroulante au moment où on ouvre le formulaire
+    });
+
+    // --- Quand on clique sur la flèche retour
+    arrowLeft.addEventListener("click", function () {
+        // On affiche la galerie
+        modalContent1.style.display = "flex";
+        // On masque le formulaire
+        modalContent2.style.display = "none";
+        // On masque la flèche retour
+        arrowLeft.style.display = "none";
+
+        // (Optionnel) Réinitialise le formulaire
+        // resetForm();
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const gallery = document.querySelector(".gallery");
 // const filters = document.querySelector(".filters");
@@ -605,13 +632,13 @@ async function createCategoryOption() {
 
 // // Fonction pour changer de fenêtre dans la modale
 // function navigateModal() {
-//     const buttonModal = document.querySelector(".buttonModal");
+//     const btnAddWork = document.querySelector(".btnAddWork");
 //     const modalContent1 = document.querySelector(".modalContent1");
 //     const modalContent2 = document.querySelector(".modalContent2");
 //     const arrowLeft = document.querySelector(".arrowLeft");
 
 //     // Pour aller vers la fenêtre d'ajout de projet
-//     buttonModal.addEventListener("click", function () {
+//     btnAddWork.addEventListener("click", function () {
 //         modalContent1.style.display = "none";
 //         modalContent2.style.display = "flex";
 //         arrowLeft.style.display = "flex";
