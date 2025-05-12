@@ -509,3 +509,38 @@ figure .delete-btn::before {
 .hidden {
   display: none !important;
 }
+
+.modalContent2 {
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  background-color: #1D6154;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+}

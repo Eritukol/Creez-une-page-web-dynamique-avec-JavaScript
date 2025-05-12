@@ -266,20 +266,6 @@ function renderModalGallery(works) {
     });
 }
 
-// Fonction pour créer les options pour la selection de catégorie d'ajout photo
-async function createCategoryOption() {
-    const dataCategories = await getCategories();
-    const categorie = document.getElementById("category");
-
-    dataCategories.forEach((category) => {
-        const option = document.createElement("option");
-        option.innerText = category.name;
-        option.value = category.id;
-        option.classList.add("option");
-        categorie.appendChild(option);
-    });
-
-};
 
 function navigateModal() {
     const btnAddWork = document.querySelector(".btnAddWork"); // Bouton "Ajouter une photo"
@@ -295,7 +281,7 @@ function navigateModal() {
         modalContent2.style.display = "flex";
         // On affiche la flèche retour
         arrowLeft.style.display = "flex";
-        
+        modalContent2.classList.remove("hidden");
         // (Optionnel) Vérifie si le bouton Valider peut être activé
         // buttonFormCheck(); 
         createCategoryOption(); // Remplit la liste déroulante au moment où on ouvre le formulaire
@@ -310,12 +296,27 @@ function navigateModal() {
         // On masque la flèche retour
         arrowLeft.style.display = "none";
 
+        modalContent2.classList.add("hidden");
         // (Optionnel) Réinitialise le formulaire
         // resetForm();
     });
 }
 
 
+// Fonction pour créer les options pour la selection de catégorie d'ajout photo
+async function createCategoryOption() {
+    const dataCategories = await getWorks();
+    const categorie = document.getElementById("category");
+
+    dataCategories.forEach((category) => {
+        const option = document.createElement("option");
+        option.innerText = category.name;
+        option.value = category.id;
+        option.classList.add("option");
+        categorie.appendChild(option);
+    });
+
+};
 
 
 
