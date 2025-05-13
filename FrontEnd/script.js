@@ -135,7 +135,7 @@ function getUniqueCategories(works) {
 
 // Fonction pour gérer l'état "actif" d'un bouton de filtre
 function setActiveFilter(activeButton) {
-    const allButtons = document.querySelectorAll(".filters");
+    const allButtons = document.querySelectorAll(".filters-button");
     allButtons.forEach(button => button.classList.remove("active"));
     activeButton.classList.add("active");
 }
