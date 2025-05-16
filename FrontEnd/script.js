@@ -302,6 +302,32 @@ function navigateModal() {
         arrowLeft.classList.add("hidden");
         // (Optionnel) Réinitialise le formulaire
         // resetForm();
+
+
+
+
+
+        const imageInput = document.getElementById("image");
+const previewImage = document.getElementById("preview");
+const previewContainer = document.getElementById("previewContainer");
+
+imageInput.addEventListener("change", function () {
+    const file = imageInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewImage.src = e.target.result;
+            previewImage.style.display = "block";
+
+            // Cache les autres éléments
+            previewContainer.querySelector("i").style.display = "none";
+            previewContainer.querySelector("label").style.display = "none";
+            previewContainer.querySelector("p").style.display = "none";
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
     });
 }
 

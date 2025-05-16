@@ -109,6 +109,7 @@ section {
 
 body {
 	line-height: 1;
+
 }
 
 ol,
@@ -135,12 +136,18 @@ table {
 }
 
 /** end reset css**/
-body {
-	max-width: 1140px;
-	margin: auto;
-	font-family: 'Work Sans';
-	font-size: 14px;
+
+* {
+  box-sizing: border-box;
 }
+body {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px;
+  overflow-x: hidden;
+}
+
+
 
 header {
 	display: flex;
@@ -241,23 +248,36 @@ li:hover {
 	margin-bottom: 0.5em;
 }
 
+#portfolio {
+  margin: 50px;
+}
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
 
+
 .gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
 }
+
 
 .gallery img {
-	width: 100%;
-
+  width: 100%;
+  height: auto;
+  display: block;
 }
+
+figcaption {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
 
 #contact {
 	width: 50%;
@@ -510,37 +530,111 @@ figure .delete-btn::before {
   display: none !important;
 }
 
+/* Conteneur principal de la partie 2 de la modale */
 .modalContent2 {
   flex-direction: column;
-  gap: 20px;
-  padding: 20px;
   align-items: center;
-  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }
 
+/* Titre "Ajout photo" */
+.modalContent2 h3 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+/* -------- Aperçu de l’image -------- */
+.image-preview {
+  background-color: #e8f1f6;
+  width: 420px;
+  height: 170px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: none; /* Sera affiché en JS quand une image est chargée */
+}
+
+.image-preview i {
+  font-size: 60px;
+  color: #b9c5cc;
+  margin-bottom: 10px;
+}
+
+.image-preview p {
+  font-size: 14px;
+  color: #b9c5cc;
+}
+
+/* Cacher le champ de type file */
+#image {
+  display: none;
+}
+
+/* Bouton stylisé pour ajouter une image */
+.upload-label {
+  background-color: #cbd6dc;
+  color: #306685;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+/* Champs du formulaire */
 .form-group {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 420px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   margin-bottom: 5px;
-  font-weight: bold;
+  font-size: 14px;
 }
 
 .form-group input,
 .form-group select {
-  padding: 8px;
-  border: 1px solid #ccc;
+  height: 50px;
+  border: none;
+  background-color: white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  padding: 0 15px;
+  font-size: 16px;
   border-radius: 5px;
 }
 
-.submit-button {
-  background-color: #1D6154;
-  color: white;
+/* Ligne de séparation */
+.modalContent2 hr {
+  width: 420px;
+  height: 1px;
+  background-color: #b3b3b3;
+  margin: 20px 0;
   border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
+}
+
+/* Bouton "Valider" */
+.submit-button {
+  width: 240px;
+  height: 40px;
+  background-color: #1d6154;
+  color: white;
+  font-size: 14px;
+  border-radius: 60px;
+  border: none;
   cursor: pointer;
 }
+
