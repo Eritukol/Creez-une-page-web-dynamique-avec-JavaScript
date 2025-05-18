@@ -340,12 +340,12 @@ async function createCategoryOption() {
     const dataCategories = await getCategories();
     const categorie = document.getElementById("category");
 
-    select.innerHTML = "";
+    categorie.innerHTML = "";
 
     const defaultOption = document.createElement("option");
     defaultOption.textContent = "-- choisissez une catégorie --";
     defaultOption.value = "";
-    select.appendChild(defaultOption);
+    categorie.appendChild(defaultOption);
 
 
     dataCategories.forEach((category) => {
@@ -354,7 +354,7 @@ async function createCategoryOption() {
             const option = document.createElement("option");
             option.innerText = category.name;
             option.value = category.id;
-            select.appenChild(option);
+            categorie.appendChild(option);
         }
     });
 
