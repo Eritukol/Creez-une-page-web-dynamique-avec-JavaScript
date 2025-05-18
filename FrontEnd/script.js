@@ -275,33 +275,18 @@ function navigateModal() {
 
     // --- Quand on clique sur "Ajouter une photo"
     btnAddWork.addEventListener("click", function () {
-        // On masque la galerie
-        modalContent1.classList.add("hidden");
-        // modalContent1.style.display = "none";
-        // On affiche le formulaire
-        //modalContent2.style.display = "flex";
-        // On affiche la flèche retour
-        arrowLeft.style.display = "flex";
-        modalContent2.classList.remove("hidden");
-        arrowLeft.classList.remove("hidden");
-        // (Optionnel) Vérifie si le bouton Valider peut être activé
-        // buttonFormCheck(); 
+         modalContent1.classList.add("hidden");      // on cache la galerie
+    modalContent2.classList.remove("hidden");   // on affiche le formulaire
+    arrowLeft.classList.remove("hidden");       // on affiche la flèche de retour
+
         createCategoryOption(); // Remplit la liste déroulante au moment où on ouvre le formulaire
     });
 
     // --- Quand on clique sur la flèche retour
     arrowLeft.addEventListener("click", function () {
-        // On affiche la galerie
-        modalContent1.classList.remove("hidden");
-        // On masque le formulaire
         modalContent2.classList.add("hidden");
-        // On masque la flèche retour
-        arrowLeft.style.display = "none";
-
-        
-        arrowLeft.classList.add("hidden");
-        // (Optionnel) Réinitialise le formulaire
-        // resetForm();
+    modalContent1.classList.remove("hidden");
+    arrowLeft.classList.add("hidden");
 
 
 
@@ -310,6 +295,9 @@ function navigateModal() {
         const imageInput = document.getElementById("image");
 const previewImage = document.getElementById("preview");
 const previewContainer = document.getElementById("previewContainer");
+
+
+
 
 imageInput.addEventListener("change", function () {
     const file = imageInput.files[0];
@@ -326,23 +314,48 @@ imageInput.addEventListener("change", function () {
         };
         reader.readAsDataURL(file);
     }
+    checkFormValidity(); // check apres le changement de fichier
 });
 
     });
 }
 
 
+async function getCategories() {
+    try{
+        const response = await fetch("http://localhost:5678/api/categories");
+        if (!response.ok) {
+            throw new Error("Erreur lors de la récupération des catégories");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur API catégories :", error);
+        return [];
+    }
+}
+
+
 // Fonction pour créer les options pour la selection de catégorie d'ajout photo
 async function createCategoryOption() {
-    const dataCategories = await getWorks();
+    const dataCategories = await getCategories();
     const categorie = document.getElementById("category");
 
+    select.innerHTML = "";
+
+    const defaultOption = document.createElement("option");
+    defaultOption.textContent = "-- choisissez une catégorie --";
+    defaultOption.value = "";
+    select.appendChild(defaultOption);
+
+
     dataCategories.forEach((category) => {
-        const option = document.createElement("option");
-        option.innerText = category.name;
-        option.value = category.id;
-        option.classList.add("option");
-        categorie.appendChild(option);
+        
+        if(category && category.name && category.id) {
+            const option = document.createElement("option");
+            option.innerText = category.name;
+            option.value = category.id;
+            select.appenChild(option);
+        }
     });
 
 };

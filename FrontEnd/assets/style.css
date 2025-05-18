@@ -417,6 +417,9 @@ a {
 
 /* ——— Bloc principal de la modale ——— */
 .modal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #fff;
   width: 630px;
   max-width: 90vw;
@@ -532,10 +535,13 @@ figure .delete-btn::before {
 
 /* Conteneur principal de la partie 2 de la modale */
 .modalContent2 {
+  display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 20px;
-  width: 100%;
+  
+  
 }
 
 /* Titre "Ajout photo" */
@@ -627,7 +633,10 @@ figure .delete-btn::before {
 }
 
 /* Bouton "Valider" */
-.submit-button {
+.modalContent2 button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 240px;
   height: 40px;
   background-color: #1d6154;
@@ -636,5 +645,9 @@ figure .delete-btn::before {
   border-radius: 60px;
   border: none;
   cursor: pointer;
+}
+
+.arrowLeft {
+  border: none;
 }
 
