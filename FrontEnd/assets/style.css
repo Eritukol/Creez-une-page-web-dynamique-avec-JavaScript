@@ -224,6 +224,7 @@ li:hover {
 #introduction {
 	display: flex;
 	align-items: center;
+  width: 95%;
 }
 
 #introduction figure {
@@ -350,10 +351,10 @@ a {
 	text-decoration-style: solid;
 }
 
-/* #formError {
-    border: 1px solid red;
+#formError {
+    border: 0px solid red;
     background-color: #ffe5e5;
-} */
+}
 
 /* Admin */
 

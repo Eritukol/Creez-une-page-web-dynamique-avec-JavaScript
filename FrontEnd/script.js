@@ -377,6 +377,8 @@ function navigateModal() {
   const modalContent1 = document.querySelector(".modalContent1"); // Galerie de la modale
   const modalContent2 = document.querySelector(".modalContent2"); // Formulaire d'ajout
   const arrowLeft = document.querySelector(".arrowLeft"); // Flèche retour
+  createCategoryOption(); // Remplit la liste déroulante au moment où on ouvre le formulaire
+  setupFormSubmission();
 
   // --- Quand on clique sur "Ajouter une photo"
   btnAddWork.addEventListener("click", function () {
@@ -384,8 +386,8 @@ function navigateModal() {
     modalContent2.classList.remove("hidden"); // on affiche le formulaire
     arrowLeft.classList.remove("hidden"); // on affiche la flèche de retour
 
-    createCategoryOption(); // Remplit la liste déroulante au moment où on ouvre le formulaire
-    setupFormSubmission();
+    
+    
 
   });
 
