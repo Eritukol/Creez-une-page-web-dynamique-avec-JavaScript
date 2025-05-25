@@ -101,16 +101,19 @@
 				<h3>Ajout photo</h3>
 
 				<div class="image-preview" id="previewContainer">
-					<i class="fa-regular fa-image"></i>
-					<label for="image" class="upload-label">+ Ajouter photo</label>
-					<p>jpg, png : 4mo max</p>
+					<div id="upload" class="upload">
+						<i class="fa-regular fa-image"></i>
+						<label for="image" class="upload-label">+ Ajouter photo</label>
+						<p>jpg, png : 4mo max</p>
+						
+					</div>
 					<img id="preview" alt="Aperçu de l'image">
 				</div>
 
 
 				<form id="addWorkForm" enctype="multipart/form-data">
 					<div class="form-group">
-						<label for="image"></label>
+						
 						<input type="file" id="image" name="image" accept="image/*" required />
 					</div>
 
@@ -124,7 +127,7 @@
 						<select id="category" name="category" required></select>
 					</div>
 					<div class="separator"></div>
-					<button type="submit" class="submit-button">Valider</button>
+					<button type="submit" class="submit-button" disabled>Valider</button>
 				</form>
 			</div>
 		</div>
